@@ -1,0 +1,205 @@
+<html>
+<head>
+<title>Objs.NormalDistributions.Evaluation.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+.s4 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Objs.NormalDistributions.Evaluation.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">Objs</span><span class="s0">;</span>
+
+import <span class="s1">Screens.NormalDistributions.ExamineNormDist</span><span class="s0">;</span>
+
+import <span class="s1">java.io.Serializable</span><span class="s0">;</span>
+import <span class="s1">java.lang.reflect.Array</span><span class="s0">;</span>
+import <span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+import <span class="s1">java.util.Collections</span><span class="s0">;</span>
+import <span class="s1">java.util.List</span><span class="s0">;</span>
+
+public class <span class="s1">Objs.NormalDistributions.Evaluation </span><span class="s0">implements </span><span class="s1">Serializable {</span>
+
+    <span class="s0">public </span><span class="s1">String name</span><span class="s0">;</span>
+    public <span class="s1">String description</span><span class="s0">;</span>
+    public <span class="s1">String variableName</span><span class="s0">;</span>
+    public <span class="s1">List&lt;Objs.NormalDistributions.PointGroup&gt; points = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+
+    public class <span class="s1">EvaluationData{</span>
+        <span class="s0">public float </span><span class="s1">average</span><span class="s0">;</span>
+        public float <span class="s1">median</span><span class="s0">;</span>
+        public float <span class="s1">mode</span><span class="s0">;</span>
+        public float <span class="s1">variance</span><span class="s0">;</span>
+        public float <span class="s1">stdDev</span><span class="s0">;</span>
+        public float <span class="s1">pearsonsSkewment</span><span class="s0">;</span>
+        public float <span class="s1">kurtosis</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public class </span><span class="s1">PointNotFound </span><span class="s0">extends </span><span class="s1">Exception{</span>
+        <span class="s0">public </span><span class="s1">String toString(){</span>
+            <span class="s0">return </span><span class="s2">&quot;Point not found!&quot;</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    }
+    <span class="s0">public class </span><span class="s1">MorePointsAreNeeded </span><span class="s0">extends </span><span class="s1">Exception{</span>
+        <span class="s0">public </span><span class="s1">String toString(){ </span><span class="s0">return </span><span class="s2">&quot;Needs at least 4 points!&quot;</span><span class="s0">; </span><span class="s1">}</span>
+    }
+    <span class="s0">public class </span><span class="s1">NoPointFound </span><span class="s0">extends </span><span class="s1">Exception{</span>
+        <span class="s0">public </span><span class="s1">String toString(){ </span><span class="s0">return </span><span class="s2">&quot;No point was found!&quot;</span><span class="s0">; </span><span class="s1">}</span>
+    }
+
+    <span class="s0">public </span><span class="s1">Objs.NormalDistributions.Evaluation(String name</span><span class="s0">, </span><span class="s1">String description</span><span class="s0">, </span><span class="s1">String variableName){</span>
+        <span class="s0">this</span><span class="s1">.name = name</span><span class="s0">;</span>
+        this<span class="s1">.description = description</span><span class="s0">;</span>
+        this<span class="s1">.variableName = variableName</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">Objs.NormalDistributions.PointGroup getPointByNum(</span><span class="s0">float </span><span class="s1">num) </span><span class="s0">throws </span><span class="s1">PointNotFound{</span>
+        <span class="s0">for </span><span class="s1">(Objs.NormalDistributions.PointGroup point : points) {</span>
+            <span class="s0">if</span><span class="s1">(point.numToEval == num){</span>
+                <span class="s0">return </span><span class="s1">point</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        }
+        <span class="s0">throw new </span><span class="s1">PointNotFound()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static </span><span class="s1">List&lt;Float&gt; toIndividualPoints(Objs.NormalDistributions.Evaluation e){</span>
+        List&lt;Float&gt; individualPoints = <span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        for <span class="s1">(Objs.NormalDistributions.PointGroup point : e.points) {</span>
+            <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">0 </span><span class="s0">; </span><span class="s1">i &lt; point.times </span><span class="s0">; </span><span class="s1">i++){</span>
+                individualPoints.add(point.numToEval)<span class="s0">;</span>
+            <span class="s1">}</span>
+        }
+        <span class="s0">return </span><span class="s1">individualPoints</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public final void </span><span class="s1">addIndividualPoints(List&lt;Float&gt; points){</span>
+        <span class="s0">for </span><span class="s1">(Float point : points) {</span>
+            <span class="s0">try</span><span class="s1">{</span>
+                getPointByNum(point).times++<span class="s0">;</span>
+            <span class="s1">}</span><span class="s0">catch</span><span class="s1">(PointNotFound e){</span>
+                <span class="s0">this</span><span class="s1">.points.add(</span><span class="s0">new </span><span class="s1">Objs.NormalDistributions.PointGroup(</span><span class="s3">1</span><span class="s0">, </span><span class="s1">point))</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        }
+    }
+
+    <span class="s0">public final </span><span class="s1">Objs.NormalDistributions.PointGroup getPointByNumToEval(</span><span class="s0">float </span><span class="s1">num) </span><span class="s0">throws </span><span class="s1">NoPointFound{</span>
+        <span class="s0">for </span><span class="s1">(Objs.NormalDistributions.PointGroup point : </span><span class="s0">this</span><span class="s1">.points) {</span>
+            <span class="s0">if</span><span class="s1">(point.numToEval == num){</span>
+                <span class="s0">return </span><span class="s1">point</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        }
+        <span class="s0">throw new </span><span class="s1">NoPointFound()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static int </span><span class="s1">getTotalNumberOfPoints(Objs.NormalDistributions.Evaluation e){</span>
+        <span class="s0">int </span><span class="s1">currNum = </span><span class="s3">0</span><span class="s0">;</span>
+        for <span class="s1">(Objs.NormalDistributions.PointGroup point : e.points) {</span>
+            currNum += point.times<span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">return </span><span class="s1">currNum</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">EvaluationData getEvalData() </span><span class="s0">throws </span><span class="s1">MorePointsAreNeeded {</span>
+        EvaluationData ed = <span class="s0">new </span><span class="s1">EvaluationData()</span><span class="s0">;</span>
+        <span class="s1">List&lt;Float&gt; indPoints = toIndividualPoints(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+        int <span class="s1">n = indPoints.size()</span><span class="s0">;</span>
+        if<span class="s1">(indPoints.size() &lt; </span><span class="s3">4</span><span class="s1">){</span>
+            <span class="s0">throw new </span><span class="s1">MorePointsAreNeeded()</span><span class="s0">;</span>
+        <span class="s1">}</span><span class="s0">else</span><span class="s1">{</span>
+            System.out.println()<span class="s0">;</span>
+            <span class="s1">Collections.sort(indPoints)</span><span class="s0">;    </span><span class="s4">//Sort list numerically</span>
+
+            //Calc Average
+            <span class="s0">float </span><span class="s1">sum = </span><span class="s3">0</span><span class="s0">;</span>
+            for <span class="s1">(Float indPoint : indPoints) {</span>
+                sum += indPoint<span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">float </span><span class="s1">avg = sum / indPoints.size()</span><span class="s0">;</span>
+
+            <span class="s4">//Calc Median</span>
+            <span class="s0">float </span><span class="s1">median = indPoints.get((</span><span class="s0">int</span><span class="s1">)Math.floor((</span><span class="s0">double</span><span class="s1">)(indPoints.size() / </span><span class="s3">2</span><span class="s1">)))</span><span class="s0">;</span>
+
+            <span class="s4">//Calc Mode</span>
+            <span class="s0">float </span><span class="s1">foundMaxRep = </span><span class="s3">0</span><span class="s0">;</span>
+            float <span class="s1">foundMode = Float.MIN_VALUE</span><span class="s0">;</span>
+            for <span class="s1">(Objs.NormalDistributions.PointGroup point : </span><span class="s0">this</span><span class="s1">.points) {</span>
+                <span class="s0">int </span><span class="s1">repetitions = </span><span class="s3">0</span><span class="s0">;</span>
+                for <span class="s1">(Float indPoint : indPoints) {</span>
+                    <span class="s0">if</span><span class="s1">(point.numToEval == indPoint){</span>
+                        repetitions++<span class="s0">;</span>
+                    <span class="s1">}</span>
+                }
+                <span class="s0">if</span><span class="s1">(repetitions &gt; foundMaxRep){</span>
+                    foundMode = point.numToEval<span class="s0">;</span>
+                    <span class="s1">foundMaxRep = repetitions</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            }
+            <span class="s0">if</span><span class="s1">(foundMode == Float.MIN_VALUE){</span>
+                <span class="s4">//Throw Exception</span>
+            <span class="s1">}</span>
+            <span class="s0">float </span><span class="s1">mode = foundMode</span><span class="s0">;</span>
+
+            <span class="s4">//Calc Variance</span>
+            <span class="s0">float </span><span class="s1">sumMinusAvgsSqrd = </span><span class="s3">0</span><span class="s0">;</span>
+            for <span class="s1">(Float indPoint : indPoints) {</span>
+                sumMinusAvgsSqrd += (Math.pow(indPoint - avg<span class="s0">, </span><span class="s3">2</span><span class="s1">))</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">float </span><span class="s1">variance = sumMinusAvgsSqrd / indPoints.size()</span><span class="s0">;</span>
+
+            <span class="s4">//Calc StdDev</span>
+            <span class="s0">float </span><span class="s1">sdcomp1 = </span><span class="s3">0</span><span class="s0">;</span>
+            float <span class="s1">sdcomp2 = n - </span><span class="s3">1</span><span class="s0">;</span>
+            for <span class="s1">(Float indPoint : indPoints) {</span>
+                sdcomp1 += (<span class="s0">float</span><span class="s1">)Math.pow((indPoint - avg)</span><span class="s0">, </span><span class="s3">2</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">float </span><span class="s1">stdDev = (</span><span class="s0">float</span><span class="s1">)Math.sqrt(sdcomp1 / sdcomp2)</span><span class="s0">;</span>
+
+            <span class="s4">//Calc Pearsons Skewment</span>
+            <span class="s0">float </span><span class="s1">pearsonsSkewment = (avg - mode) / stdDev</span><span class="s0">;</span>
+
+            <span class="s4">//Calc Kurtosis</span>
+            <span class="s0">float </span><span class="s1">kcomp11</span><span class="s0">;</span>
+            float <span class="s1">kcomp12</span><span class="s0">;</span>
+            float <span class="s1">kcomp2</span><span class="s0">;</span>
+            float <span class="s1">kcomp31</span><span class="s0">;</span>
+            float <span class="s1">kcomp32</span><span class="s0">;</span>
+            <span class="s1">kcomp11 = n * (n + </span><span class="s3">1</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">kcomp12 = (n - </span><span class="s3">1</span><span class="s1">) * (n - </span><span class="s3">2</span><span class="s1">) * (n - </span><span class="s3">3</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">kcomp2 = </span><span class="s3">0</span><span class="s0">;</span>
+            for <span class="s1">(Float indPoint : indPoints) {</span>
+                <span class="s0">float </span><span class="s1">comp21 = indPoint - avg</span><span class="s0">;</span>
+                float <span class="s1">comp22 = stdDev</span><span class="s0">;</span>
+                <span class="s1">kcomp2 += Math.pow((comp21 / comp22)</span><span class="s0">, </span><span class="s3">4</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            kcomp31 = <span class="s3">3 </span><span class="s1">* (</span><span class="s0">float</span><span class="s1">)Math.pow((n - </span><span class="s3">1</span><span class="s1">)</span><span class="s0">, </span><span class="s3">2</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">kcomp32 = (n - </span><span class="s3">2</span><span class="s1">) * (n - </span><span class="s3">3</span><span class="s1">)</span><span class="s0">;</span>
+            float <span class="s1">kcomp1 = kcomp11 / kcomp12</span><span class="s0">;</span>
+            float <span class="s1">kcomp3 = kcomp31 / kcomp32</span><span class="s0">;</span>
+            float <span class="s1">kurtosis = (kcomp1 * kcomp2) - kcomp3</span><span class="s0">;</span>
+
+            <span class="s4">//Add to object ed</span>
+            <span class="s1">ed.average = avg</span><span class="s0">;</span>
+            <span class="s1">ed.kurtosis = kurtosis</span><span class="s0">;</span>
+            <span class="s1">ed.median = median</span><span class="s0">;</span>
+            <span class="s1">ed.mode = mode</span><span class="s0">;</span>
+            <span class="s1">ed.pearsonsSkewment = pearsonsSkewment</span><span class="s0">;</span>
+            <span class="s1">ed.stdDev = stdDev</span><span class="s0">;</span>
+            <span class="s1">ed.variance = variance</span><span class="s0">;</span>
+
+            return <span class="s1">ed</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+    }
+
+}
+</pre>
+</body>
+</html>

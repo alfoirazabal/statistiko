@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>ExamineNormDist.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ExamineNormDist.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">Screens.NormalDistributions</span><span class="s0">;</span>
+
+import <span class="s1">Generals.Generals</span><span class="s0">;</span>
+import <span class="s1">Objs.NormalDistributions.Evaluation</span><span class="s0">;</span>
+import <span class="s1">Screens.NormalDistributions.NormalDistributions.DeleteNormalDistribution</span><span class="s0">;</span>
+import <span class="s1">Screens.NormalDistributions.NormalDistributions.Points.AddPointGroup</span><span class="s0">;</span>
+import <span class="s1">Screens.NormalDistributions.NormalDistributions.Points.AddPointIndividually</span><span class="s0">;</span>
+import <span class="s1">Screens.NormalDistributions.NormalDistributions.Points.ViewDistributionPoints</span><span class="s0">;</span>
+
+public class <span class="s1">ExamineNormDist {</span>
+
+    <span class="s0">public static void </span><span class="s1">Show(Objs.NormalDistributions.Evaluation e){</span>
+
+        Generals.clearConsole()<span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s2">&quot;STATISTIKO - Examine Normal Distribution: &quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">String[] evalData = </span><span class="s0">new </span><span class="s1">String[</span><span class="s3">7</span><span class="s1">]</span><span class="s0">;</span>
+        try<span class="s1">{</span>
+            Objs.NormalDistributions.Evaluation.EvaluationData ed = e.getEvalData()<span class="s0">;</span>
+            <span class="s1">evalData[</span><span class="s3">0</span><span class="s1">] = </span><span class="s2">&quot;PROMEDIO / MEDIA: &quot; </span><span class="s1">+ ed.average</span><span class="s0">;</span>
+            <span class="s1">evalData[</span><span class="s3">1</span><span class="s1">] = </span><span class="s2">&quot;MEDIANA: &quot; </span><span class="s1">+ ed.average</span><span class="s0">;</span>
+            <span class="s1">evalData[</span><span class="s3">2</span><span class="s1">] = </span><span class="s2">&quot;MODA: &quot; </span><span class="s1">+ ed.average</span><span class="s0">;</span>
+            <span class="s1">evalData[</span><span class="s3">3</span><span class="s1">] = </span><span class="s2">&quot;VARIANZA: &quot; </span><span class="s1">+ ed.average</span><span class="s0">;</span>
+            <span class="s1">evalData[</span><span class="s3">4</span><span class="s1">] = </span><span class="s2">&quot;DESV. EST. DE MUESTRA: &quot; </span><span class="s1">+ ed.stdDev</span><span class="s0">;</span>
+            <span class="s1">evalData[</span><span class="s3">5</span><span class="s1">] = </span><span class="s2">&quot;PEARSONS SKEWMENT: &quot; </span><span class="s1">+ ed.pearsonsSkewment</span><span class="s0">;</span>
+            <span class="s1">evalData[</span><span class="s3">6</span><span class="s1">] = </span><span class="s2">&quot;KURTOSIS: &quot; </span><span class="s1">+ ed.kurtosis</span><span class="s0">;</span>
+        <span class="s1">}</span><span class="s0">catch</span><span class="s1">(Objs.NormalDistributions.Evaluation.MorePointsAreNeeded eMPAN){</span>
+            evalData = <span class="s0">new </span><span class="s1">String[</span><span class="s3">1</span><span class="s1">]</span><span class="s0">;</span>
+            <span class="s1">evalData[</span><span class="s3">0</span><span class="s1">] = </span><span class="s2">&quot;Necesito mas de 3 puntos para calcular datos...&quot;</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        String[] nDistData = {
+                (<span class="s2">&quot;NOMBRE: &quot; </span><span class="s1">+ e.name)</span><span class="s0">,</span>
+                <span class="s1">(</span><span class="s2">&quot;DESCRIPCION: &quot; </span><span class="s1">+ e.description)</span><span class="s0">,</span>
+                <span class="s1">(</span><span class="s2">&quot;VARIABLE A MEDIR: &quot; </span><span class="s1">+ e.variableName)</span><span class="s0">,</span>
+                <span class="s1">(</span><span class="s2">&quot;TOTAL DE PUNTOS: &quot; </span><span class="s1">+ Objs.NormalDistributions.Evaluation.getTotalNumberOfPoints(e))</span><span class="s0">,</span>
+                <span class="s1">(</span><span class="s2">&quot;&quot;</span><span class="s1">)</span><span class="s0">,</span>
+                <span class="s1">(</span><span class="s2">&quot;--- DATOS DE LA EVALUACION ---&quot;</span><span class="s1">)</span><span class="s0">,</span>
+                <span class="s1">(</span><span class="s2">&quot;&quot;</span><span class="s1">)</span>
+        }<span class="s0">;</span>
+        <span class="s1">String[][] toOutput = {nDistData</span><span class="s0">, </span><span class="s1">evalData}</span><span class="s0">;</span>
+        <span class="s1">Generals.printDataSeries(toOutput)</span><span class="s0">;</span>
+        <span class="s1">String[] options = {</span>
+                <span class="s2">&quot;Atras&quot;</span><span class="s0">,</span>
+                <span class="s2">&quot;Ver&quot;</span><span class="s0">,</span>
+                <span class="s2">&quot;Agregar Puntos Individualmente&quot;</span><span class="s0">,</span>
+                <span class="s2">&quot;Agregar Puntos Agrupados&quot;</span><span class="s0">,</span>
+                <span class="s2">&quot;Borrar Puntos Individualmente&quot;</span><span class="s0">,</span>
+                <span class="s2">&quot;Borrar Puntos Agrupados&quot;</span><span class="s0">,</span>
+                <span class="s2">&quot;Eliminar Evaluación&quot;</span>
+        <span class="s1">}</span><span class="s0">;</span>
+        <span class="s1">Generals.printMenuSelection(options</span><span class="s0">, </span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span>
+
+        int <span class="s1">usrInput = Generals.getUserInputInt(</span><span class="s2">&quot;: &quot;</span><span class="s1">)</span><span class="s0">;</span>
+        switch <span class="s1">(usrInput){</span>
+            <span class="s0">case </span><span class="s3">0</span><span class="s1">:</span>
+                MenuNormDist.Show()<span class="s0">;</span>
+                break;
+            case <span class="s3">1</span><span class="s1">:</span>
+                ViewDistributionPoints.Show(e)<span class="s0">;</span>
+                break;
+            case <span class="s3">2</span><span class="s1">:</span>
+                AddPointIndividually.Show(e)<span class="s0">;</span>
+                break;
+            case <span class="s3">3</span><span class="s1">:</span>
+                AddPointGroup.Show(e)<span class="s0">;</span>
+                break;
+            case <span class="s3">4</span><span class="s1">:</span>
+            <span class="s0">case </span><span class="s3">5</span><span class="s1">:</span>
+                Generals.pressEnterToContinue(<span class="s2">&quot;NO IMPLEMENTADO AUN&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">ExamineNormDist.Show(e)</span><span class="s0">;</span>
+                break;
+            case <span class="s3">6</span><span class="s1">:</span>
+                DeleteNormalDistribution.Show(e)<span class="s0">;</span>
+                break;
+            default<span class="s1">:</span>
+                Generals.printCommandNotRecognized(String.valueOf(usrInput))<span class="s0">;</span>
+                <span class="s1">ExamineNormDist.Show(e)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    }
+
+}
+</pre>
+</body>
+</html>

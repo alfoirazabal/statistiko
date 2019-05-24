@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>Generals.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #6a8759;}
+.s4 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Generals.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">Generals</span><span class="s0">;</span>
+
+import <span class="s1">java.io.IOException</span><span class="s0">;</span>
+import <span class="s1">java.util.InputMismatchException</span><span class="s0">;</span>
+import <span class="s1">java.util.Scanner</span><span class="s0">;</span>
+
+public class <span class="s1">Generals {</span>
+
+    <span class="s0">public static int </span><span class="s1">getUserInputInt(String text){</span>
+        <span class="s0">int </span><span class="s1">usrInput = </span><span class="s2">0</span><span class="s0">;</span>
+        <span class="s1">Scanner sc = </span><span class="s0">new </span><span class="s1">Scanner(System.in)</span><span class="s0">;</span>
+        <span class="s1">System.out.print(text)</span><span class="s0">;</span>
+        try<span class="s1">{</span>
+            usrInput = sc.nextInt()<span class="s0">;</span>
+            return <span class="s1">usrInput</span><span class="s0">;</span>
+        <span class="s1">}</span><span class="s0">catch</span><span class="s1">(InputMismatchException e){</span>
+            System.out.println(<span class="s3">&quot;Debe insertar un entero valido...&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            return <span class="s1">getUserInputInt(text)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    }
+
+    <span class="s0">public static float </span><span class="s1">getUserInputFloat(String text){</span>
+        <span class="s0">float </span><span class="s1">usrInput = </span><span class="s2">0</span><span class="s0">;</span>
+        <span class="s1">Scanner sc = </span><span class="s0">new </span><span class="s1">Scanner(System.in)</span><span class="s0">;</span>
+        <span class="s1">System.out.print(text)</span><span class="s0">;</span>
+        try<span class="s1">{</span>
+            usrInput = sc.nextFloat()<span class="s0">;</span>
+            return <span class="s1">usrInput</span><span class="s0">;</span>
+        <span class="s1">}</span><span class="s0">catch</span><span class="s1">(InputMismatchException e){</span>
+            System.out.println(<span class="s3">&quot;Debe insertar un numero valido...&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            return <span class="s1">getUserInputFloat(text)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    }
+
+    <span class="s0">public static </span><span class="s1">String getUserInputString(String textQuery){</span>
+        System.out.print(textQuery)<span class="s0">;</span>
+        <span class="s1">Scanner sc = </span><span class="s0">new </span><span class="s1">Scanner(System.in)</span><span class="s0">;</span>
+        return <span class="s1">sc.nextLine()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static void </span><span class="s1">printCommandNotRecognized(String command){</span>
+        clearConsole()<span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s3">&quot;The command '&quot; </span><span class="s1">+ command + </span><span class="s3">&quot;' was not recognized, please try again...&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        try<span class="s1">{</span>
+            System.in.read()<span class="s0">;</span>
+        <span class="s1">}</span><span class="s0">catch</span><span class="s1">(IOException e){</span>
+            System.out.println(<span class="s3">&quot;ERROR: Could not handle System.in.read()!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    }
+
+    <span class="s0">public static void </span><span class="s1">pressEnterToContinue(String infoText){</span>
+        System.out.print(infoText)<span class="s0">;</span>
+        <span class="s1">Scanner sc = </span><span class="s0">new </span><span class="s1">Scanner(System.in)</span><span class="s0">;</span>
+        <span class="s1">sc.nextLine()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static </span><span class="s1">String generateRandomCode(</span><span class="s0">int </span><span class="s1">length){</span>
+        <span class="s0">char</span><span class="s1">[] availChars = </span><span class="s0">new char</span><span class="s1">[]</span>
+                {
+                        <span class="s3">'a'</span><span class="s0">, </span><span class="s3">'b'</span><span class="s0">, </span><span class="s3">'c'</span><span class="s0">, </span><span class="s3">'d'</span><span class="s0">, </span><span class="s3">'e'</span><span class="s0">, </span><span class="s3">'f'</span><span class="s0">, </span><span class="s3">'g'</span><span class="s0">, </span><span class="s3">'h'</span><span class="s0">, </span><span class="s3">'i'</span><span class="s0">, </span><span class="s3">'j'</span><span class="s0">, </span><span class="s3">'k'</span><span class="s0">, </span><span class="s3">'l'</span><span class="s0">, </span><span class="s3">'m'</span><span class="s0">, </span><span class="s3">'n'</span><span class="s0">, </span><span class="s3">'o'</span><span class="s0">, </span><span class="s3">'p'</span><span class="s0">, </span><span class="s3">'q'</span><span class="s0">, </span><span class="s3">'r'</span><span class="s0">, </span><span class="s3">'s'</span><span class="s0">,</span>
+                        <span class="s3">'t'</span><span class="s0">, </span><span class="s3">'u'</span><span class="s0">, </span><span class="s3">'v'</span><span class="s0">, </span><span class="s3">'w'</span><span class="s0">, </span><span class="s3">'x'</span><span class="s0">, </span><span class="s3">'y'</span><span class="s0">, </span><span class="s3">'z'</span><span class="s0">, </span><span class="s3">'0'</span><span class="s0">, </span><span class="s3">'1'</span><span class="s0">, </span><span class="s3">'2'</span><span class="s0">, </span><span class="s3">'3'</span><span class="s0">, </span><span class="s3">'4'</span><span class="s0">, </span><span class="s3">'5'</span><span class="s0">, </span><span class="s3">'6'</span><span class="s0">, </span><span class="s3">'7'</span><span class="s0">, </span><span class="s3">'8'</span><span class="s0">, </span><span class="s3">'9'</span>
+                <span class="s1">}</span><span class="s0">;</span>
+        char<span class="s1">[] code = </span><span class="s0">new char</span><span class="s1">[length]</span><span class="s0">;</span>
+        for<span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0 </span><span class="s0">; </span><span class="s1">i &lt; length </span><span class="s0">; </span><span class="s1">i++){</span>
+            code[i] = availChars[(<span class="s0">int</span><span class="s1">)Math.floor(Math.random() * availChars.length)]</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">return </span><span class="s1">String.valueOf(code)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public final static void </span><span class="s1">clearConsole() {</span>
+        <span class="s4">//Clears Screen in java</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s0">if </span><span class="s1">(System.getProperty(</span><span class="s3">&quot;os.name&quot;</span><span class="s1">).contains(</span><span class="s3">&quot;Windows&quot;</span><span class="s1">))</span>
+                <span class="s0">new </span><span class="s1">ProcessBuilder(</span><span class="s3">&quot;cmd&quot;</span><span class="s0">, </span><span class="s3">&quot;/c&quot;</span><span class="s0">, </span><span class="s3">&quot;cls&quot;</span><span class="s1">).inheritIO().start().waitFor()</span><span class="s0">;</span>
+            else
+                <span class="s1">System.out.print(</span><span class="s3">&quot;</span><span class="s0">\033</span><span class="s3">[H</span><span class="s0">\033</span><span class="s3">[2J&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">System.out.flush()</span><span class="s0">;</span>
+        <span class="s1">} </span><span class="s0">catch </span><span class="s1">(InterruptedException e) {</span>
+            e.printStackTrace()<span class="s0">;</span>
+        <span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+            e.printStackTrace()<span class="s0">;</span>
+        <span class="s1">}</span>
+    }
+
+    <span class="s0">public final static void </span><span class="s1">printMenuSelection(String[] items</span><span class="s0">, int </span><span class="s1">beginning){</span>
+        System.out.println()<span class="s0">;</span>
+        for<span class="s1">(</span><span class="s0">int </span><span class="s1">i = beginning </span><span class="s0">; </span><span class="s1">i &lt; items.length + beginning </span><span class="s0">; </span><span class="s1">i++){</span>
+            System.out.println(i + <span class="s3">&quot;) &quot; </span><span class="s1">+ items[i])</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        System.out.println()<span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public final static void </span><span class="s1">printDataSeries(String[][] items){</span>
+        System.out.println()<span class="s0">;</span>
+        for <span class="s1">(String[] item : items) {</span>
+            <span class="s0">for </span><span class="s1">(String s : item) {</span>
+                System.out.println(s)<span class="s0">;</span>
+            <span class="s1">}</span>
+        }
+        System.out.println()<span class="s0">;</span>
+    <span class="s1">}</span>
+
+}
+</pre>
+</body>
+</html>

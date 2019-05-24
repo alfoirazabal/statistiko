@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>DeleteNormalDistribution.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+DeleteNormalDistribution.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">Screens.NormalDistributions.NormalDistributions</span><span class="s0">;</span>
+
+import <span class="s1">Data.Data</span><span class="s0">;</span>
+import <span class="s1">Generals.Generals</span><span class="s0">;</span>
+import <span class="s1">Objs.NormalDistributions.Evaluation</span><span class="s0">;</span>
+import <span class="s1">Screens.NormalDistributions.ExamineNormDist</span><span class="s0">;</span>
+import <span class="s1">Screens.NormalDistributions.MenuNormDist</span><span class="s0">;</span>
+
+public class <span class="s1">DeleteNormalDistribution {</span>
+
+    <span class="s0">public static void </span><span class="s1">Show(Objs.NormalDistributions.Evaluation e){</span>
+
+        Generals.clearConsole()<span class="s0">;</span>
+        <span class="s1">String currentCode = Generals.generateRandomCode(</span><span class="s2">5</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s3">&quot;STATISTIKO - Borrar Evaluación: &quot; </span><span class="s1">+ e.name)</span><span class="s0">;</span>
+        <span class="s1">System.out.println()</span><span class="s0">;</span>
+        <span class="s1">String usrCode = Generals.getUserInputString(</span><span class="s3">&quot;Escriba '&quot; </span><span class="s1">+ currentCode + </span><span class="s3">&quot;' para confirmar: &quot;</span><span class="s1">)</span><span class="s0">;</span>
+        if<span class="s1">(currentCode.equals(usrCode)){</span>
+            Data.evaluations.remove(e)<span class="s0">;</span>
+            <span class="s1">Data.serialize()</span><span class="s0">;</span>
+            <span class="s1">System.out.println()</span><span class="s0">;</span>
+            <span class="s1">Generals.pressEnterToContinue(</span><span class="s3">&quot;Evaluación borrada, presione enter para continuar.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">MenuNormDist.Show()</span><span class="s0">;</span>
+        <span class="s1">}</span><span class="s0">else</span><span class="s1">{</span>
+            Generals.pressEnterToContinue(<span class="s3">&quot;Códigos no identicos.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">Generals.pressEnterToContinue(</span><span class="s3">&quot;Presione enter para continuar.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">ExamineNormDist.Show(e)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+    }
+
+}
+</pre>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>AddPointIndividually.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+AddPointIndividually.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">Screens.NormalDistributions.NormalDistributions.Points</span><span class="s0">;</span>
+
+import <span class="s1">Generals.Generals</span><span class="s0">;</span>
+import <span class="s1">Objs.NormalDistributions.Evaluation</span><span class="s0">;</span>
+import <span class="s1">Screens.NormalDistributions.ExamineNormDist</span><span class="s0">;</span>
+
+import <span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+import <span class="s1">java.util.InputMismatchException</span><span class="s0">;</span>
+import <span class="s1">java.util.List</span><span class="s0">;</span>
+import <span class="s1">java.util.Scanner</span><span class="s0">;</span>
+
+public class <span class="s1">AddPointIndividually {</span>
+
+    <span class="s0">public static void </span><span class="s1">Show(Objs.NormalDistributions.Evaluation e){</span>
+
+        List&lt;Float&gt; points = <span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+
+        <span class="s1">Generals.clearConsole()</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s2">&quot;STATISTIKO - Agregar Puntos Individualmente&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">System.out.println()</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s2">&quot;Inserte puntos (numeros), para terminar, inserte una letra.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">System.out.println()</span><span class="s0">;</span>
+        boolean <span class="s1">numberInserted = </span><span class="s0">true;</span>
+        while<span class="s1">(numberInserted){</span>
+            <span class="s0">try</span><span class="s1">{</span>
+                System.out.print(<span class="s2">&quot;: &quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">Scanner sc = </span><span class="s0">new </span><span class="s1">Scanner(System.in)</span><span class="s0">;</span>
+                float <span class="s1">numToInsert = sc.nextFloat()</span><span class="s0">;</span>
+                <span class="s1">points.add(numToInsert)</span><span class="s0">;</span>
+            <span class="s1">}</span><span class="s0">catch</span><span class="s1">(InputMismatchException iME){</span>
+                numberInserted = <span class="s0">false;</span>
+            <span class="s1">}</span>
+        }
+        System.out.println()<span class="s0">;</span>
+        <span class="s1">e.addIndividualPoints(points)</span><span class="s0">;</span>
+        <span class="s1">Data.Data.serialize()</span><span class="s0">;</span>
+        <span class="s1">Generals.pressEnterToContinue(</span><span class="s2">&quot;Datos Guardados, presione enter para continuar.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">ExamineNormDist.Show(e)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+}
+</pre>
+</body>
+</html>
